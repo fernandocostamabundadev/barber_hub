@@ -47,3 +47,14 @@ const elements = {
   lightboxImage: document.getElementById('lightbox-image'),
   lightboxClose: document.getElementById('lightbox-close')
 };
+
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  initializeNavigation();
+  initializeHeader();
+  initializeWhatsAppLinks();
+  initializeContent();
+  initializeGallery();
+  initializeLightbox();
+  initializeSmoothScroll();
+});
