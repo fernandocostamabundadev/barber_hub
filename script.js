@@ -222,3 +222,255 @@ function generateServices() {
   
   container.innerHTML = servicesHTML;
 }
+
+// Packages Generation
+function generatePackages() {
+  const container = document.getElementById('pacotes-container');
+  if (!container) return;
+  
+  const packagesHTML = SITE_DATA.pacotes.map(pacote => `
+    <div class="package">
+      <h3 class="package__title">${pacote.titulo}</h3>
+      <p class="package__description">${pacote.desc}</p>
+      <div class="package__price">${pacote.preco}</div>
+      <button class="btn btn--primary package__button">Agendar</button>
+    </div>
+  `).join('');
+  
+  container.innerHTML = packagesHTML;
+  
+  // Re-initialize WhatsApp links for new buttons
+  initializeWhatsAppLinks();
+}
+
+// Gallery Functions
+function initializeGallery() {
+  const galleryGrid = document.getElementById('gallery-grid');
+  if (!galleryGrid) return;
+  
+  const galleryHTML = galleryImages.map((image, index) => `
+    <div class="gallery__item" data-index="${index}">
+      <img src="${image.url}" alt="${image.alt}" loading="lazy">
+    </div>
+  `).join('');
+  
+  galleryGrid.innerHTML = galleryHTML;
+  
+  // Add click handlers for lightbox
+  const galleryItems = galleryGrid.querySelectorAll('.gallery__item');
+  galleryItems.forEach(item => {
+    item.addEventListener('click', function() {
+      const index = parseInt(this.dataset.index);
+      openLightbox(index);
+    });
+    
+    // Add keyboard support
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('role', 'button');
+    item.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const index = parseInt(this.dataset.index);
+        openLightbox(index);
+      }
+    });
+  });
+}
+
+// Lightbox Functions
+function initializeLightbox() {
+  if (elements.lightboxClose) {
+    elements.lightboxClose.addEventListener('click', closeLightbox);
+  }
+  
+  if (elements.lightbox) {
+    elements.lightbox.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLightbox();
+      }
+    });
+  }
+  
+  // Close lightbox on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && elements.lightbox && elements.lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+}
+
+function openLightbox(index) {
+  if (!elements.lightbox || !elements.lightboxImage || !galleryImages[index]) return;
+  
+  const image = galleryImages[index];
+  elements.lightboxImage.src = image.url;
+  elements.lightboxImage.alt = image.alt;
+  elements.lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  // Focus the close button
+  if (elements.lightboxClose) {
+    elements.lightboxClose.focus();
+  }
+}
+
+function closeLightbox() {
+  if (!elements.lightbox) return;
+  
+  elements.lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+  
+  // Clear image src to save memory
+  if (elements.lightboxImage) {
+    elements.lightboxImage.src = '';
+    elements.lightboxImage.alt = '';
+  }
+}
+
+// Smooth Scroll for anchor links
+function initializeSmoothScroll() {
+  const links = document.querySelectorAll('a[href^="#"]');
+  
+  links.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      
+      // Skip if it's just # or empty
+      if (!href || href === '#') {
+        e.preventDefault();
+        return;
+      }
+      
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        
+        // Close mobile menu if open
+        closeMenu();
+        
+        // Calculate offset for fixed header
+        const headerHeight = elements.header ? elements.header.offsetHeight : 0;
+        const targetPosition = target.offsetTop - headerHeight - 20;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
+
+// Service Icon Generator
+function getServiceIcon(serviceName) {
+  const icons = {
+    'Corte Adulto': `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.76 4.84L4.96 3.04L3.12 4.88L4.92 6.68C5.33 6.27 5.81 5.97 6.35 5.82L6.76 4.84Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.5 10.5C9.88 11.88 11.62 12.5 13.5 12.5S17.12 11.88 18.5 10.5L12 4L8.5 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17.24 4.84L19.04 3.04L20.88 4.88L19.08 6.68C18.67 6.27 18.19 5.97 17.65 5.82L17.24 4.84Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `,
+    'Corte Criança': `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+        <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `,
+    'Aparar a Barba': `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.38 8.53C20.54 8.13 19.15 6.75 18.55 6.15C17.85 5.45 16.65 5.45 15.95 6.15L5.95 16.15C5.65 16.45 5.65 16.95 5.95 17.25L6.75 18.05C7.05 18.35 7.55 18.35 7.85 18.05L17.85 8.05C18.45 7.45 19.85 6.05 20.38 8.53Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 12L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `,
+    'Fazer a Barba': `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.24 12.24C21.15 11.33 21.15 9.87 20.24 8.96L15.04 3.76C14.13 2.85 12.67 2.85 11.76 3.76L5.04 10.48C4.13 11.39 4.13 12.85 5.04 13.76L10.24 18.96C11.15 19.87 12.61 19.87 13.52 18.96L20.24 12.24Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 15L15 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 18L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `
+  };
+  
+  return icons[serviceName] || icons['Corte Adulto'];
+}
+
+// Performance Optimization - Lazy Loading
+function initializeLazyLoading() {
+  if ('IntersectionObserver' in window) {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.classList.add('fade-in');
+          observer.unobserve(img);
+        }
+      });
+    });
+    
+    lazyImages.forEach(img => imageObserver.observe(img));
+  }
+}
+
+// Error Handling for Images
+document.addEventListener('error', function(e) {
+  if (e.target.tagName === 'IMG') {
+    e.target.style.display = 'none';
+    console.warn('Failed to load image:', e.target.src);
+  }
+}, true);
+
+// Accessibility Enhancements
+function initializeAccessibility() {
+  // Add skip link
+  const skipLink = document.createElement('a');
+  skipLink.href = '#main';
+  skipLink.textContent = 'Pular para o conteúdo principal';
+  skipLink.className = 'skip-link';
+  skipLink.style.cssText = `
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--color-dark);
+    color: var(--color-white);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 9999;
+    transition: top 0.2s;
+  `;
+  
+  skipLink.addEventListener('focus', function() {
+    this.style.top = '6px';
+  });
+  
+  skipLink.addEventListener('blur', function() {
+    this.style.top = '-40px';
+  });
+  
+  document.body.insertBefore(skipLink, document.body.firstChild);
+  
+  // Add main landmark
+  const main = document.querySelector('main');
+  if (main) {
+    main.id = 'main';
+  }
+}
+
+// Initialize accessibility features
+document.addEventListener('DOMContentLoaded', initializeAccessibility);
+
+// Service Worker Registration (for PWA capabilities)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('SW registered: ', registration);
+      })
+      .catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
