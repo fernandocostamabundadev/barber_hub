@@ -36,3 +36,14 @@ const galleryImages = [
   { url: './assets/img/work-img-9.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
   { url: './assets/img/work-img-10.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
 ];
+
+// DOM Elements
+const elements = {
+  navToggle: document.getElementById('nav-toggle'),
+  navMenu: document.getElementById('nav-menu'),
+  navClose: document.getElementById('nav-close'),
+  header: document.getElementById('header'),
+  lightbox: document.getElementById('lightbox'),
+  lightboxImage: document.getElementById('lightbox-image'),
+  lightboxClose: document.getElementById('lightbox-close')
+};
