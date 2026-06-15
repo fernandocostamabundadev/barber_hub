@@ -837,6 +837,51 @@ a:focus-visible {
 }
 
 /* CTA Banner */
+.cta-banner {
+  position: relative;
+  padding: var(--space-16) 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.cta-banner__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.cta-banner__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cta-banner__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(14, 14, 14, 0.8) 0%, rgba(163, 122, 87, 0.6) 100%);
+  z-index: -1;
+}
+
+.cta-banner__title {
+  font-family: var(--font-headings);
+  font-size: clamp(2rem, 5vw, var(--font-size-5xl));
+  font-weight: var(--font-weight-black);
+  color: var(--color-white);
+  margin-bottom: var(--space-6);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: var(--line-height-tight);
+}
+
+.cta-banner__button {
+  min-width: 250px;
+}
 
 /* Testimonials Section */
 
