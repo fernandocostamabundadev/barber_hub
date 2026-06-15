@@ -22,3 +22,17 @@ const SITE_DATA = {
     { titulo: "Pacote 4", desc: "Corte mensal (4x)", preco: "R$ 120" }
   ]
 };
+
+// Gallery Images 
+const galleryImages = [
+  { url: './assets/img/work-img-1.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-2.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-3.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-4.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-5.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-6.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-7.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-8.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-9.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+  { url: './assets/img/work-img-10.png', alt: 'Barbeiro trabalhando - Profissionalismo' },
+];
