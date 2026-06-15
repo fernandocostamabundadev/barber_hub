@@ -505,6 +505,70 @@ a:focus-visible {
 }
 
 /* About Section */
+.about {
+  background-color: var(--color-secondary);
+}
+
+.about__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-10);
+  align-items: center;
+}
+
+.about__content {
+  max-width: 500px;
+}
+
+.about__description {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-6);
+}
+
+.about__stats {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.about__stat {
+  text-align: center;
+}
+
+.about__stat-number {
+  display: block;
+  font-family: var(--font-headings);
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-black);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.about__stat-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.about__image {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.about__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.about__image:hover img {
+  transform: scale(1.05);
+}
 
 /* Services Section */
 
