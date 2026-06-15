@@ -58,3 +58,167 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeLightbox();
   initializeSmoothScroll();
 });
+
+// Navigation Menu Functions
+function initializeNavigation() {
+  if (elements.navToggle && elements.navMenu) {
+    elements.navToggle.addEventListener('click', toggleMenu);
+  }
+  
+  if (elements.navClose) {
+    elements.navClose.addEventListener('click', closeMenu);
+  }
+  
+  // Close menu when clicking on nav links
+  const navLinks = document.querySelectorAll('.nav__link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (elements.navMenu && 
+        elements.navMenu.classList.contains('active') && 
+        !elements.navMenu.contains(e.target) && 
+        !elements.navToggle.contains(e.target)) {
+      closeMenu();
+    }
+  });
+  
+  // Close menu on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && elements.navMenu && elements.navMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+}
+
+function toggleMenu() {
+  if (elements.navMenu) {
+    const isActive = elements.navMenu.classList.contains('active');
+    
+    if (isActive) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+}
+
+function openMenu() {
+  if (elements.navMenu && elements.navToggle) {
+    elements.navMenu.classList.add('active');
+    elements.navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    
+    // Focus trap
+    const firstFocusable = elements.navMenu.querySelector('a, button');
+    if (firstFocusable) {
+      firstFocusable.focus();
+    }
+  }
+}
+
+function closeMenu() {
+  if (elements.navMenu && elements.navToggle) {
+    elements.navMenu.classList.remove('active');
+    elements.navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+}
+
+// Header scroll behavior
+function initializeHeader() {
+  if (!elements.header) return;
+  
+  let lastScrollTop = 0;
+  const headerHeight = elements.header.offsetHeight;
+  
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > headerHeight) {
+      elements.header.classList.add('is-scrolled');
+    } else {
+      elements.header.classList.remove('is-scrolled');
+    }
+    
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
+}
+
+// WhatsApp Links Setup
+function initializeWhatsAppLinks() {
+  const whatsappLinks = [
+    'telefone-link',
+    'contato-whatsapp', 
+    'btn-agendar-whatsapp',
+    'footer-whatsapp',
+    'whatsapp-float'
+  ];
+  
+  const whatsappUrl = `https://wa.me/${SITE_DATA.whatsappNumeroE164}?text=${encodeURIComponent(SITE_DATA.ctaMensagem)}`;
+  
+  whatsappLinks.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.href = whatsappUrl;
+      element.setAttribute('target', '_blank');
+      element.setAttribute('rel', 'noopener noreferrer');
+    }
+  });
+  
+  // Add WhatsApp click handlers to service and package buttons
+  const serviceButtons = document.querySelectorAll('.service__button, .package__button');
+  serviceButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    });
+  });
+}
+
+// Content Population
+function initializeContent() {
+  // Populate contact info
+  const enderecoLinha1 = document.getElementById('endereco-linha1');
+  const enderecoLinha2 = document.getElementById('endereco-linha2');
+  const horarioHoje = document.getElementById('horario-hoje');
+  
+  if (enderecoLinha1) enderecoLinha1.textContent = SITE_DATA.enderecoLinha1;
+  if (enderecoLinha2) enderecoLinha2.textContent = SITE_DATA.enderecoLinha2;
+  if (horarioHoje) horarioHoje.textContent = SITE_DATA.horarioHoje;
+  
+  // Populate phone links
+  const phoneElements = document.querySelectorAll('[id*="telefone"], [id*="whatsapp"]');
+  phoneElements.forEach(element => {
+    if (element.tagName === 'A') {
+      element.textContent = SITE_DATA.telefone;
+    }
+  });
+  
+  // Generate services
+  generateServices();
+  
+  // Generate packages
+  generatePackages();
+}
+
+// Services Generation
+function generateServices() {
+  const container = document.getElementById('servicos-container');
+  if (!container) return;
+  
+  const servicesHTML = SITE_DATA.precos.map(servico => `
+    <div class="service">
+      <div class="service__icon">
+        ${getServiceIcon(servico.nome)}
+      </div>
+      <h3 class="service__title">${servico.nome}</h3>
+      <div class="service__price">${servico.preco}</div>
+      <p class="service__description">${servico.descricao}</p>
+    </div>
+  `).join('');
+  
+  container.innerHTML = servicesHTML;
+}
