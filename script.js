@@ -11,15 +11,19 @@ const SITE_DATA = {
   ctaMensagem: "Olá! Quero agendar um horário na barbearia.",
   precos: [
     { nome: "Corte Adulto", preco: "R$ 35", descricao: "Corte personalizado com acabamento profissional" },
-    { nome: "Corte Criança", preco: "R$ 30", descricao: "Corte especial para crianças até 12 anos" },
-    { nome: "Aparar a Barba", preco: "R$ 30", descricao: "Aparar e modelar a barba com precisão" },
+    { nome: "Corte ", preco: "R$ 15", descricao: "Corte especial para sombracelha" },
+    { nome: "Corte Infantil", preco: "R$ 25", descricao: "Corte especial para crianças até 12 anos" },
+    { nome: "Aparar a Barba", preco: "R$ 18", descricao: "Aparar e modelar a barba com precisão" },
+    { nome: "Renovacao", preco: "R$ 10", descricao: "Renovamos o corte com precisão" },
     { nome: "Fazer a Barba", preco: "R$ 30", descricao: "Barba completa com toalha quente e produtos premium" }
   ],
   pacotes: [
     { titulo: "Pacote 1", desc: "Corte + Barba", preco: "R$ 60" },
     { titulo: "Pacote 2", desc: "Corte + Hidratação", preco: "R$ 50" },
     { titulo: "Pacote 3", desc: "Corte + Barba + Sobrancelha", preco: "R$ 75" },
-    { titulo: "Pacote 4", desc: "Corte mensal (4x)", preco: "R$ 120" }
+    { titulo: "Pacote 4", desc: "Sobrancelha + corte", preco: "R$ 45" },
+    { titulo: "Pacote 5", desc: "combo-Mulla", preco: "R$ 110" },
+    { titulo: "Pacote 6", desc: "Corte mensal (4x)", preco: "R$ 120" }
   ]
 };
 
